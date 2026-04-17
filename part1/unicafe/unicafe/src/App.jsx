@@ -1,24 +1,42 @@
 import { useState } from 'react'
 
-// Jy was laaste op 1.7 unicafe step 2
-
 const Button = ({onClick, text}) => {
     return (
         <button onClick={onClick}>{text}</button>
     )
 }
 
-const Statistics = (props) => {
+const Statistics = ({good, neutral, bad, total, average, positive}) => {
+    if (total === 0) {
+        return (
+            <div>
+                <h4>No feedback gathered yet</h4>
+            </div>
+        )
+    }
     return (
         <div>
-
+            <h1>statistics</h1>
+            <table>
+                <tbody>
+                    <StatisticLine text="good" value={good} />
+                    <StatisticLine text="neutral" value={neutral} />
+                    <StatisticLine text="bad" value={bad} />
+                    <StatisticLine text="total" value={total} />
+                    <StatisticLine text="average" value={average} />
+                    <StatisticLine text="positive" value={`${positive}%`} />
+                </tbody>
+            </table>
         </div>
     )
 }
 
-const StatisticLine = ({stat, value}) => {
+const StatisticLine = ({text, value}) => {
     return (
-        <div>{stat} {value}</div>
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
     )
 }
 
@@ -50,13 +68,7 @@ const App = () => {
           <Button onClick={handleGoodClick} text="good" />
           <Button onClick={handleNeutralClick} text="neutral" />
           <Button onClick={handleBadClick} text="bad" />
-          <h1>statistics</h1>
-          <StatisticLine value={good} stat="good" />
-          <StatisticLine value={neutral} stat="neutral" />
-          <StatisticLine value={bad} stat="bad" />
-          <StatisticLine value={total} stat="all" />
-          <StatisticLine value={average} stat="average" />
-          <StatisticLine value={`${positive} %`} stat="positive" />
+          <Statistics good={good} neutral={neutral} bad={bad} total={total} average={average} positive={positive} />
       </div>
   )
 }
